@@ -1,4 +1,4 @@
-package com.papertrl.springsecurity.service.config;
+package com.papertrl.springsecurity.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

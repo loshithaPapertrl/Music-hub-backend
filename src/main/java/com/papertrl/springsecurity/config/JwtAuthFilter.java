@@ -1,4 +1,4 @@
-package com.papertrl.springsecurity.service.config;
+package com.papertrl.springsecurity.config;
 
 import com.papertrl.springsecurity.dao.UserDao;
 import lombok.RequiredArgsConstructor;

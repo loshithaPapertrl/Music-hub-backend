@@ -1,6 +1,6 @@
 package com.papertrl.springsecurity.controller;
 
-import com.papertrl.springsecurity.service.config.JwtUtil;
+import com.papertrl.springsecurity.config.JwtUtil;
 import com.papertrl.springsecurity.dao.UserDao;
 import com.papertrl.springsecurity.dto.AuthenticationRequest;
 import lombok.RequiredArgsConstructor;
