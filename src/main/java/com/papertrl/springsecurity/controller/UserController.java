@@ -26,4 +26,5 @@ import static com.papertrl.springsecurity.util.CommonConstants.*;
             return new ResponseEntity<>(userService.getTalentCategories(), HttpStatus.OK) ;
         }
 
+
     }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Table(name = "post")
-public class Post {
+public class Post implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +26,11 @@ public class Post {
     @Column(name = "post_type")
     private String postType;
 
+    @Lob
     @Column(name = "post_content")
     private byte[] postContent;
 
     @Column(name = "post_date")
     private Date postDate;
+
 }
