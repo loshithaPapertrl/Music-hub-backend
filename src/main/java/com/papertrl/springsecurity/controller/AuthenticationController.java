@@ -9,6 +9,7 @@ import com.papertrl.springsecurity.entity.User;
 import com.papertrl.springsecurity.exception.MusicHubCheckedException;
 import com.papertrl.springsecurity.repository.UserRepository;
 import com.papertrl.springsecurity.service.UserService;
+import com.papertrl.springsecurity.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,6 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final UserDao userDao;
     private final JwtUtil jwtUtil;
-
     @Autowired
     private UserService userService;
 
@@ -40,7 +40,7 @@ public class AuthenticationController {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        final UserDetails user = userDao.findUserByEmail(request.getEmail());
+        final UserDetails user = userService.findUserByEmail(request.getEmail());
         if (user != null){
             return ResponseEntity.ok(jwtUtil.generateToken(user));
         }

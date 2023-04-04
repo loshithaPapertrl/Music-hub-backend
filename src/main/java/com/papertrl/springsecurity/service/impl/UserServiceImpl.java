@@ -5,20 +5,21 @@ import com.papertrl.springsecurity.dto.UserDto;
 import com.papertrl.springsecurity.entity.Post;
 import com.papertrl.springsecurity.entity.TalentsCategory;
 import com.papertrl.springsecurity.entity.User;
-import com.papertrl.springsecurity.exception.MusicHubCheckedException;
 import com.papertrl.springsecurity.repository.PostRepository;
 import com.papertrl.springsecurity.repository.TalentCategoryRepository;
 import com.papertrl.springsecurity.repository.UserRepository;
+import com.papertrl.springsecurity.repository.UserTalentCategoryRepository;
 import com.papertrl.springsecurity.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import net.codejava.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
@@ -33,6 +34,8 @@ public class UserServiceImpl implements UserService {
     private TalentCategoryRepository talentCategoryRepository;
 
     private PostRepository postRepository;
+
+    private UserTalentCategoryRepository userTalentCategoryRepository;
 
     @Override
     public ResponseEntity<Object> register(UserDto userDto) {
@@ -88,6 +91,24 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public UserDetails findUserByEmail(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("No user found with the given email");
+        }
+        return new CustomUserDetails(user);
+    }
+
+    @Override
+    public List<Integer> getCategoryViseTalentId(Integer categoryId){
+        return userTalentCategoryRepository.findUseridByCategoryId(categoryId);
+    }
+
+    @Autowired
+    public void setUserTalentCategoryRepository(UserTalentCategoryRepository userTalentCategoryRepository) {
+        this.userTalentCategoryRepository = userTalentCategoryRepository;
+    }
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {

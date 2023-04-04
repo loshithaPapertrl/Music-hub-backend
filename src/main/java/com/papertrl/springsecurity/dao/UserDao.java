@@ -18,6 +18,13 @@ public class UserDao {
                     "Loshitha123",
                     Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))
             ),
+
+            new User(
+                    "dileepa@gmail.com",
+                    "Dileepa123",
+                    Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
+            ),
+
             new User(
                     "dileepa@gmail.com",
                     "Dileepa123",
@@ -26,10 +33,16 @@ public class UserDao {
     );
 
     public UserDetails findUserByEmail(String email){
-        return APPLICATION_USERS
+
+
+
+        UserDetails userDetails = APPLICATION_USERS
                 .stream()
                 .filter(u -> u.getUsername().equals(email))
                 .findFirst()
                 .orElseThrow(() -> new UsernameNotFoundException("No use was found"));
+
+        return userDetails;
+
     }
 }

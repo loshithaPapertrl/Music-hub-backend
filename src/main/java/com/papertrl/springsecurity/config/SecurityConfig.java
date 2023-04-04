@@ -1,6 +1,7 @@
 package com.papertrl.springsecurity.config;
 
 import com.papertrl.springsecurity.dao.UserDao;
+import com.papertrl.springsecurity.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,8 @@ public class SecurityConfig {
     private final JwtAuthFilter JwtAuthFilter;
     @Autowired
     private final UserDao userDao;
+    @Autowired
+    private UserServiceImpl userService;
 
 
 
@@ -72,7 +75,7 @@ public class SecurityConfig {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-                return userDao.findUserByEmail(email);
+                return userService.findUserByEmail(email);
             }
         };
     }

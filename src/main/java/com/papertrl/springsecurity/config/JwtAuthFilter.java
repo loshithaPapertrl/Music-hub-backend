@@ -1,6 +1,7 @@
 package com.papertrl.springsecurity.config;
 
 import com.papertrl.springsecurity.dao.UserDao;
+import com.papertrl.springsecurity.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +30,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
     private final JwtUtil jwtUtil;
 
+    @Autowired
+    private  UserServiceImpl userService;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -47,7 +51,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     userEmail = jwtUtil.extractUsername(jwtToken);
 
     if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
-                  UserDetails userDetails = userDao.findUserByEmail(userEmail);
+                  UserDetails userDetails = userService.findUserByEmail(userEmail);
 
                   if (jwtUtil.isTokenValid(jwtToken, userDetails)){
                       UsernamePasswordAuthenticationToken authToken =
@@ -59,4 +63,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request,response);
      }
+
+
 }
