@@ -1,14 +1,13 @@
 package com.papertrl.springsecurity.service.impl;
 
 import com.papertrl.springsecurity.dto.PostDto;
+import com.papertrl.springsecurity.dto.ReviewDto;
 import com.papertrl.springsecurity.dto.UserDto;
 import com.papertrl.springsecurity.entity.Post;
+import com.papertrl.springsecurity.entity.Review;
 import com.papertrl.springsecurity.entity.TalentsCategory;
 import com.papertrl.springsecurity.entity.User;
-import com.papertrl.springsecurity.repository.PostRepository;
-import com.papertrl.springsecurity.repository.TalentCategoryRepository;
-import com.papertrl.springsecurity.repository.UserRepository;
-import com.papertrl.springsecurity.repository.UserTalentCategoryRepository;
+import com.papertrl.springsecurity.repository.*;
 import com.papertrl.springsecurity.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import net.codejava.CustomUserDetails;
@@ -24,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
     private PostRepository postRepository;
 
     private UserTalentCategoryRepository userTalentCategoryRepository;
+
+    private ReviewRepository reviewRepository;
 
     @Override
     public ResponseEntity<Object> register(UserDto userDto) {
@@ -61,7 +63,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<Object> savePost(PostDto post){
         Post postSave = new Post();
-        postSave.setUserId(getCurrentUserId());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Integer userId = userRepository.findArtistIdByEmail(email);
+
+        postSave.setUserId(userId);
         try {
             postSave.setPostContent(post.getPostContent().getBytes());
             postSave.setPostType(post.getPostType());
@@ -103,6 +109,51 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Integer> getCategoryViseTalentId(Integer categoryId){
         return userTalentCategoryRepository.findUseridByCategoryId(categoryId);
+    }
+
+    @Override
+    public ResponseEntity<Object> saveReview(ReviewDto reviewDto) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        String artistName = userRepository.findArtistNameByEmail(email);
+        if (null==artistName){
+            artistName=email;
+        }
+        Review review = new Review();
+        review.setReviewedUserId(reviewDto.getReviewedUserId());
+        review.setReviewText(reviewDto.getReviewText());
+        review.setReviewerName(artistName);
+        reviewRepository.save(review);
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Object> getReviewUserVise(Integer userId) {
+        List<Review> reviewByUserId = reviewRepository.findReviewByUserId(userId);
+        return new ResponseEntity<>(reviewByUserId,HttpStatus.OK);
+    }
+
+    @Override
+    public List<Post> getPostByUserId(int userId) {
+        List<Post> posts= postRepository.findByUserId(userId);
+        return posts;
+    }
+
+    @Override
+    public ResponseEntity<Object> deletePost(int postId) {
+        Optional<Post> postOptional = postRepository.findById(postId);
+        if (postOptional.isPresent()) {
+            postRepository.delete(postOptional.get());
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Autowired
+    public void setReviewRepository(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;
     }
 
     @Autowired

@@ -31,4 +31,11 @@ import static com.papertrl.springsecurity.util.CommonConstants.*;
             return new ResponseEntity<>(userService.getCategoryViseTalentId(categoryId), HttpStatus.OK) ;
         }
 
+        @GetMapping(GET_REVIEW_USER_VISE_USER_ID)
+        public ResponseEntity<Object> getReviewUserVise(@RequestParam Integer userId){
+            return userService.getReviewUserVise(userId) ;
+        }
+
+
+
     }

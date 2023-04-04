@@ -4,6 +4,7 @@ import com.papertrl.springsecurity.config.JwtUtil;
 import com.papertrl.springsecurity.dao.UserDao;
 import com.papertrl.springsecurity.dto.AuthenticationRequest;
 import com.papertrl.springsecurity.dto.PostDto;
+import com.papertrl.springsecurity.dto.ReviewDto;
 import com.papertrl.springsecurity.entity.Post;
 import com.papertrl.springsecurity.entity.User;
 import com.papertrl.springsecurity.exception.MusicHubCheckedException;
@@ -29,6 +30,7 @@ import static com.papertrl.springsecurity.util.CommonConstants.*;
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
+
     private final UserDao userDao;
     private final JwtUtil jwtUtil;
     @Autowired
@@ -51,6 +53,19 @@ public class AuthenticationController {
     public ResponseEntity<Object> savePost(@ModelAttribute PostDto post)throws MusicHubCheckedException {
         return new ResponseEntity<>(userService.savePost(post), HttpStatus.OK) ;
     }
+    @PostMapping(POST_REVIEW)
+    public ResponseEntity<Object> postReview(@RequestBody ReviewDto review)throws MusicHubCheckedException {
+        return new ResponseEntity<>(userService.saveReview(review), HttpStatus.OK) ;
+    }
 
+    @GetMapping(GET_POST_BY_USER_ID)
+    public ResponseEntity<Object> getPostById(@RequestParam int userId) {
+        return new ResponseEntity<>(userService.getPostByUserId(userId),HttpStatus.OK);
+    }
+
+    @DeleteMapping(DELETE_POST)
+    public ResponseEntity<Object> deletePostById(@RequestParam int postId) {
+        return new ResponseEntity<>(userService.deletePost(postId),HttpStatus.OK);
+    }
 
 }

@@ -33,4 +33,11 @@ public class Post implements Serializable {
     @Column(name = "post_date")
     private Date postDate;
 
+
+    public Post(int userId, String postType, byte[] postContent, Date postDate) {
+        this.userId = userId;
+        this.postType = postType;
+        this.postContent = postContent;
+        this.postDate = postDate;
+    }
 }
