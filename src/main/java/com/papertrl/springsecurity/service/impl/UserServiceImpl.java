@@ -1,9 +1,11 @@
 package com.papertrl.springsecurity.service.impl;
 
 import com.papertrl.springsecurity.dto.PostDto;
+import com.papertrl.springsecurity.dto.ProfileDetailDto;
 import com.papertrl.springsecurity.dto.ReviewDto;
 import com.papertrl.springsecurity.dto.UserDto;
 import com.papertrl.springsecurity.entity.*;
+import com.papertrl.springsecurity.exception.MusicHubCheckedException;
 import com.papertrl.springsecurity.repository.*;
 import com.papertrl.springsecurity.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +37,8 @@ public class UserServiceImpl implements UserService {
     private UserTalentCategoryRepository userTalentCategoryRepository;
 
     private ReviewRepository reviewRepository;
+
+    private ProfileDetailRepository profileDetailRepository;
 
     @Override
     public ResponseEntity<Object> register(UserDto userDto) {
@@ -87,11 +91,10 @@ public class UserServiceImpl implements UserService {
 
     private Integer getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof User) {
-            Integer userId = ((User) authentication.getPrincipal()).getId();
-            return userId;
-        }
-        return null;
+        String email = authentication.getName();
+        Integer userId = userRepository.findArtistIdByEmail(email);
+
+        return userId;
     }
 
     @Override
@@ -149,8 +152,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ProfileDetail saveProfileDetail(ProfileDetail profileDetail) {
-        return null;
+    public ResponseEntity<Object> saveProfileDetail(ProfileDetailDto profileDetailDto) throws MusicHubCheckedException {
+
+        ProfileDetail profileDetail = new ProfileDetail();
+
+        try {
+            profileDetail.setUserId(getCurrentUserId());
+            profileDetail.setProfilePicture(profileDetailDto.getProfilePicture().getBytes());
+            profileDetail.setAbout(profileDetailDto.getAbout());
+            profileDetail.setGenres(profileDetailDto.getGenres());
+            profileDetail.setMoods(profileDetailDto.getGenres());
+            profileDetail.setProfession(profileDetailDto.getProfession());
+            profileDetail.setSpotifyLink(profileDetail.getSpotifyLink());
+            profileDetail.setYoutubeLink(profileDetailDto.getYoutubeLink());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        profileDetailRepository.save(profileDetail);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Autowired
+    public void setProfileDetailRepository(ProfileDetailRepository profileDetailRepository) {
+        this.profileDetailRepository = profileDetailRepository;
     }
 
     @Autowired

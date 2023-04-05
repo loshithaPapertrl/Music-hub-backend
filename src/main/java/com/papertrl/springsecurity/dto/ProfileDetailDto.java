@@ -12,6 +12,8 @@ public class ProfileDetailDto {
 
     private Integer id;
 
+    private Integer userId;
+
     private MultipartFile profilePicture;
 
     private String profession;

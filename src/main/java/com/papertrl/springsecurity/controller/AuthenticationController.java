@@ -4,6 +4,7 @@ import com.papertrl.springsecurity.config.JwtUtil;
 import com.papertrl.springsecurity.dao.UserDao;
 import com.papertrl.springsecurity.dto.AuthenticationRequest;
 import com.papertrl.springsecurity.dto.PostDto;
+import com.papertrl.springsecurity.dto.ProfileDetailDto;
 import com.papertrl.springsecurity.dto.ReviewDto;
 import com.papertrl.springsecurity.entity.Post;
 import com.papertrl.springsecurity.entity.ProfileDetail;
@@ -69,10 +70,9 @@ public class AuthenticationController {
         return new ResponseEntity<>(userService.deletePost(postId),HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<ProfileDetail> saveProfileDetail(@RequestBody ProfileDetail profileDetail) {
-        ProfileDetail savedProfileDetail = userService.saveProfileDetail(profileDetail);
-        return ResponseEntity.ok(savedProfileDetail);
+    @PostMapping(ADD_PROFILE_DETAILS)
+    public ResponseEntity<Object> saveProfileDetail(@ModelAttribute ProfileDetailDto profileDetail) throws MusicHubCheckedException {
+        return new  ResponseEntity<>(userService.saveProfileDetail(profileDetail),HttpStatus.OK);
     }
 
 }

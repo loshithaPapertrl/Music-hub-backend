@@ -16,6 +16,9 @@ public class ProfileDetail {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "user_id")
+    private Integer userId;
+
     @Lob
     @Column(name = "profile_picture")
     private byte[] profilePicture;
