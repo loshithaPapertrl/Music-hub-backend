@@ -4,6 +4,7 @@ import com.papertrl.springsecurity.dto.PostDto;
 import com.papertrl.springsecurity.dto.ReviewDto;
 import com.papertrl.springsecurity.dto.UserDto;
 import com.papertrl.springsecurity.entity.Post;
+import com.papertrl.springsecurity.entity.ProfileDetail;
 import com.papertrl.springsecurity.entity.Review;
 import com.papertrl.springsecurity.entity.TalentsCategory;
 import com.papertrl.springsecurity.exception.MusicHubCheckedException;
@@ -32,6 +33,8 @@ public interface UserService {
     public List<Post> getPostByUserId(int postId);
 
     public ResponseEntity<Object> deletePost(int postId);
+
+    ProfileDetail saveProfileDetail(ProfileDetail profileDetail);
 
 //    User loadUserByUsername(String userName);
 }

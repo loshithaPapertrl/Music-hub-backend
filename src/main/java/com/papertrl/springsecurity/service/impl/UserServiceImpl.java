@@ -3,10 +3,7 @@ package com.papertrl.springsecurity.service.impl;
 import com.papertrl.springsecurity.dto.PostDto;
 import com.papertrl.springsecurity.dto.ReviewDto;
 import com.papertrl.springsecurity.dto.UserDto;
-import com.papertrl.springsecurity.entity.Post;
-import com.papertrl.springsecurity.entity.Review;
-import com.papertrl.springsecurity.entity.TalentsCategory;
-import com.papertrl.springsecurity.entity.User;
+import com.papertrl.springsecurity.entity.*;
 import com.papertrl.springsecurity.repository.*;
 import com.papertrl.springsecurity.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -149,6 +146,11 @@ public class UserServiceImpl implements UserService {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Override
+    public ProfileDetail saveProfileDetail(ProfileDetail profileDetail) {
+        return null;
     }
 
     @Autowired

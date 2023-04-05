@@ -6,6 +6,7 @@ import com.papertrl.springsecurity.dto.AuthenticationRequest;
 import com.papertrl.springsecurity.dto.PostDto;
 import com.papertrl.springsecurity.dto.ReviewDto;
 import com.papertrl.springsecurity.entity.Post;
+import com.papertrl.springsecurity.entity.ProfileDetail;
 import com.papertrl.springsecurity.entity.User;
 import com.papertrl.springsecurity.exception.MusicHubCheckedException;
 import com.papertrl.springsecurity.repository.UserRepository;
@@ -66,6 +67,12 @@ public class AuthenticationController {
     @DeleteMapping(DELETE_POST)
     public ResponseEntity<Object> deletePostById(@RequestParam int postId) {
         return new ResponseEntity<>(userService.deletePost(postId),HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<ProfileDetail> saveProfileDetail(@RequestBody ProfileDetail profileDetail) {
+        ProfileDetail savedProfileDetail = userService.saveProfileDetail(profileDetail);
+        return ResponseEntity.ok(savedProfileDetail);
     }
 
 }
