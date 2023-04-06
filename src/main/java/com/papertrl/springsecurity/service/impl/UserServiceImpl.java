@@ -155,15 +155,14 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Object> saveProfileDetail(ProfileDetailDto profileDetailDto) throws MusicHubCheckedException {
 
         ProfileDetail profileDetail = new ProfileDetail();
-
         try {
             profileDetail.setUserId(getCurrentUserId());
-            profileDetail.setProfilePicture(profileDetailDto.getProfilePicture().getBytes());
             profileDetail.setAbout(profileDetailDto.getAbout());
             profileDetail.setGenres(profileDetailDto.getGenres());
-            profileDetail.setMoods(profileDetailDto.getGenres());
+            profileDetail.setProfilePicture( profileDetailDto.getProfilePicture().getBytes());
+            profileDetail.setMoods(profileDetailDto.getMoods());
             profileDetail.setProfession(profileDetailDto.getProfession());
-            profileDetail.setSpotifyLink(profileDetail.getSpotifyLink());
+            profileDetail.setSpotifyLink(profileDetailDto.getSpotifyLink());
             profileDetail.setYoutubeLink(profileDetailDto.getYoutubeLink());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -171,6 +170,7 @@ public class UserServiceImpl implements UserService {
         profileDetailRepository.save(profileDetail);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @Autowired
     public void setProfileDetailRepository(ProfileDetailRepository profileDetailRepository) {
