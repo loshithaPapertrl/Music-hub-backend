@@ -40,6 +40,10 @@ public class UserServiceImpl implements UserService {
 
     private ProfileDetailRepository profileDetailRepository;
 
+
+
+    private CommentRepository commentRepository;
+
     @Override
     public ResponseEntity<Object> register(UserDto userDto) {
         User user = new User();
@@ -51,9 +55,10 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         user.setUserName(userDto.getUsername());
         user.setPassword(userDto.getPassword());
+        user.setRole(userDto.getRole());
 
         userRepository.save(user);
-        return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
@@ -136,7 +141,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Post> getPostByUserId(int userId) {
-        List<Post> posts= postRepository.findByUserId(userId);
+        List<Post> posts = postRepository.findPostByUserId(userId);
+        for (Post post:posts) {
+            post.setComments(commentRepository.findCommentByPostId(post.getId()));
+        }
         return posts;
     }
 
@@ -171,6 +179,23 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    @Override
+    public ProfileDetail getProfileDetail() {
+        Integer currentUserId = getCurrentUserId();
+        return profileDetailRepository.findByUserId(currentUserId);
+    }
+
+    @Override
+    public ResponseEntity<Object> commentOnAPost(Comment comment) {
+       commentRepository.save(comment);
+        return  new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Autowired
+    public void setCommentRepository(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
+    }
 
     @Autowired
     public void setProfileDetailRepository(ProfileDetailRepository profileDetailRepository) {

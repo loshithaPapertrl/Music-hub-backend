@@ -4,9 +4,9 @@ import com.papertrl.springsecurity.dto.PostDto;
 import com.papertrl.springsecurity.dto.ProfileDetailDto;
 import com.papertrl.springsecurity.dto.ReviewDto;
 import com.papertrl.springsecurity.dto.UserDto;
+import com.papertrl.springsecurity.entity.Comment;
 import com.papertrl.springsecurity.entity.Post;
 import com.papertrl.springsecurity.entity.ProfileDetail;
-import com.papertrl.springsecurity.entity.Review;
 import com.papertrl.springsecurity.entity.TalentsCategory;
 import com.papertrl.springsecurity.exception.MusicHubCheckedException;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +36,9 @@ public interface UserService {
     public ResponseEntity<Object> deletePost(int postId);
 
     public ResponseEntity<Object> saveProfileDetail(ProfileDetailDto profileDetailDto) throws MusicHubCheckedException;
+
+    public ProfileDetail getProfileDetail();
+    ResponseEntity<Object> commentOnAPost(Comment comment);
 
 //    User loadUserByUsername(String userName);
 }

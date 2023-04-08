@@ -2,10 +2,8 @@ package com.papertrl.springsecurity.controller;
 
 import com.papertrl.springsecurity.config.JwtUtil;
 import com.papertrl.springsecurity.dao.UserDao;
-import com.papertrl.springsecurity.dto.AuthenticationRequest;
-import com.papertrl.springsecurity.dto.PostDto;
-import com.papertrl.springsecurity.dto.ProfileDetailDto;
-import com.papertrl.springsecurity.dto.ReviewDto;
+import com.papertrl.springsecurity.dto.*;
+import com.papertrl.springsecurity.entity.Comment;
 import com.papertrl.springsecurity.entity.Post;
 import com.papertrl.springsecurity.entity.ProfileDetail;
 import com.papertrl.springsecurity.entity.User;
@@ -39,14 +37,16 @@ public class AuthenticationController {
     private UserService userService;
 
     @PostMapping(AUTHENTICATE)
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request){
+    public ResponseEntity<Object> authenticate(@RequestBody AuthenticationRequest request){
 
+        TokenDto tokenDto = new TokenDto();
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         final UserDetails user = userService.findUserByEmail(request.getEmail());
         if (user != null){
-            return ResponseEntity.ok(jwtUtil.generateToken(user));
+            tokenDto.setToken(jwtUtil.generateToken(user));
+            return ResponseEntity.ok(tokenDto);
         }
         return ResponseEntity.status(400).body("some error");
     }
@@ -75,4 +75,13 @@ public class AuthenticationController {
         return new  ResponseEntity<>(userService.saveProfileDetail(profileDetail),HttpStatus.OK);
     }
 
+    @GetMapping(GET_PROFILE_DETAILS)
+    public ResponseEntity<Object> getProfileDetailByUserId() throws MusicHubCheckedException {
+        return new  ResponseEntity<>(userService.getProfileDetail(),HttpStatus.OK);
+    }
+
+    @PostMapping(COMMENT_ON_A_POST)
+    public ResponseEntity<Object> commentOnAPost(@RequestBody Comment comment) throws MusicHubCheckedException {
+        return new  ResponseEntity<>(userService.commentOnAPost(comment),HttpStatus.OK);
+    }
 }

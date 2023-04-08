@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -33,11 +34,24 @@ public class Post implements Serializable {
     @Column(name = "post_date")
     private Date postDate;
 
+    @Column(name = "about")
+    private String about;
 
-    public Post(int userId, String postType, byte[] postContent, Date postDate) {
-        this.userId = userId;
+    transient private List<Comment> comments;
+
+    transient private String userName;
+
+    transient private  byte[] profilePicture;
+
+
+    public Post(Integer id,Integer userId, String userName, String about,byte[] postContent,byte[] profilePicture, Date postDate, String postType) {
+        this.id = id;
+        this.userId=userId;
+        this.userName = userName;
         this.postType = postType;
         this.postContent = postContent;
         this.postDate = postDate;
+        this.about = about;
+        this.profilePicture=profilePicture;
     }
 }
