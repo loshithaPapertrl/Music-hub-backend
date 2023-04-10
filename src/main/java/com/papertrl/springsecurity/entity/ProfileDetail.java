@@ -41,4 +41,20 @@ public class ProfileDetail {
     @Column(name = "spotify_link")
     private String spotifyLink;
 
+    private transient String artistName;
+
+    public ProfileDetail(Integer id, Integer userId, String artistName, byte[] profilePicture, String about,
+                         String genres,String moods, String profession,String spotifyLink,String youtubeLink
+                         ) {
+        this.id = id;
+        this.userId = userId;
+        this.profilePicture = profilePicture;
+        this.profession = profession;
+        this.genres = genres;
+        this.moods = moods;
+        this.about = about;
+        this.youtubeLink = youtubeLink;
+        this.spotifyLink = spotifyLink;
+        this.artistName = artistName;
+    }
 }

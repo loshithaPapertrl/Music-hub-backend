@@ -16,5 +16,7 @@ public class PostDto implements Serializable {
 
     private MultipartFile postContent;
 
+    private String about;
+
     private Date postDate;
 }

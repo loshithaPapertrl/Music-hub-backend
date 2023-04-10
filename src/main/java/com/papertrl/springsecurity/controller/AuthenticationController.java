@@ -76,7 +76,7 @@ public class AuthenticationController {
     }
 
     @GetMapping(GET_PROFILE_DETAILS)
-    public ResponseEntity<Object> getProfileDetailByUserId() throws MusicHubCheckedException {
+    public ResponseEntity<Object> getProfileDetailByOwner() throws MusicHubCheckedException {
         return new  ResponseEntity<>(userService.getProfileDetail(),HttpStatus.OK);
     }
 

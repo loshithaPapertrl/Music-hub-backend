@@ -75,6 +75,7 @@ public class UserServiceImpl implements UserService {
 
         postSave.setUserId(userId);
         try {
+            postSave.setAbout(post.getAbout());
             postSave.setPostContent(post.getPostContent().getBytes());
             postSave.setPostType(post.getPostType());
             postSave.setPostDate(new Date());
@@ -183,7 +184,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ProfileDetail getProfileDetail() {
         Integer currentUserId = getCurrentUserId();
-        return profileDetailRepository.findByUserId(currentUserId);
+        return profileDetailRepository.findByUserIdWithName(currentUserId);
     }
 
     @Override
