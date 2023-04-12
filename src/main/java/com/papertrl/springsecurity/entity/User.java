@@ -49,9 +49,12 @@ public class User{
 
     private transient byte[] profilePicture;
 
+    private transient Integer profileId;
 
-    public User(Integer id, String artistName, String phoneNumber, byte[] profilePicture) {
+
+    public User(Integer id,Integer profileId, String artistName, String phoneNumber, byte[] profilePicture) {
         this.id = id;
+        this.profileId= profileId;
         this.artistName = artistName;
         this.phoneNumber = phoneNumber;
         this.profilePicture = profilePicture;

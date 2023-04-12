@@ -79,6 +79,10 @@ public class AuthenticationController {
     public ResponseEntity<Object> getProfileDetailByOwner() throws MusicHubCheckedException {
         return new  ResponseEntity<>(userService.getProfileDetail(),HttpStatus.OK);
     }
+    @GetMapping(GET_PROFILE_DETAILS_BY_VISITOR)
+    public ResponseEntity<Object> getProfileDetailForVisitor(@RequestParam Integer userId) throws MusicHubCheckedException {
+        return new  ResponseEntity<>(userService.getProfileDetailForVisitor(userId),HttpStatus.OK);
+    }
 
     @PostMapping(COMMENT_ON_A_POST)
     public ResponseEntity<Object> commentOnAPost(@RequestBody Comment comment) throws MusicHubCheckedException {

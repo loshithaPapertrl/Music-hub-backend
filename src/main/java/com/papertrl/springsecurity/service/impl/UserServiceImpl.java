@@ -141,6 +141,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseEntity<Object> getPersonalReview(){
+        Integer userId = getCurrentUserId();
+        List<Review> reviewByUserId = reviewRepository.findReviewByUserId(userId);
+        return new ResponseEntity<>(reviewByUserId,HttpStatus.OK);
+    }
+
+    @Override
     public List<Post> getPostByUserId(int userId) {
         List<Post> posts = postRepository.findPostByUserId(userId);
         for (Post post:posts) {
@@ -185,6 +192,11 @@ public class UserServiceImpl implements UserService {
     public ProfileDetail getProfileDetail() {
         Integer currentUserId = getCurrentUserId();
         return profileDetailRepository.findByUserIdWithName(currentUserId);
+    }
+
+    @Override
+    public ProfileDetail getProfileDetailForVisitor(Integer userId) {
+        return profileDetailRepository.findByUserIdWithName(userId);
     }
 
     @Override

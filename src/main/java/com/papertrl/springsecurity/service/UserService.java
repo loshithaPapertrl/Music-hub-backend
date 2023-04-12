@@ -38,9 +38,14 @@ public interface UserService {
     public ResponseEntity<Object> saveProfileDetail(ProfileDetailDto profileDetailDto) throws MusicHubCheckedException;
 
     public ProfileDetail getProfileDetail();
+
+    public ProfileDetail getProfileDetailForVisitor(Integer userId);
+
     ResponseEntity<Object> commentOnAPost(Comment comment);
 
     ResponseEntity<Object> getUsersCategoryVise(Integer categoryId);
+
+    ResponseEntity<Object> getPersonalReview();
 
 //    User loadUserByUsername(String userName);
 }
