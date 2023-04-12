@@ -36,6 +36,9 @@ import static com.papertrl.springsecurity.util.CommonConstants.*;
             return userService.getReviewUserVise(userId) ;
         }
 
-
+        @GetMapping(GET_USERs_CATEGORY_VISE)
+        public ResponseEntity<Object> getUsersCategoryVise(@RequestParam Integer categoryId){
+            return userService.getUsersCategoryVise(categoryId) ;
+        }
 
     }

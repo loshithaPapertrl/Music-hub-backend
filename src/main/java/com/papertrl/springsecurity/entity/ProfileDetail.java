@@ -41,6 +41,8 @@ public class ProfileDetail {
     @Column(name = "spotify_link")
     private String spotifyLink;
 
+    @Column(name = "talentcategory")
+    private Integer talentCategory;
     private transient String artistName;
 
     public ProfileDetail(Integer id, Integer userId, String artistName, byte[] profilePicture, String about,

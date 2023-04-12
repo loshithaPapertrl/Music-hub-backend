@@ -15,6 +15,8 @@ public class CommonConstants implements Serializable {
     public static final String ALL_TALENTS = USER+"/getAllTalentCategories";
     public static final String CATEGORY_VISE_USER_ID = USER+"/get_all_userid_category_vise";
     public static final String GET_REVIEW_USER_VISE_USER_ID = USER+"/get_user_vise_review";
+
+    public static final String GET_USERs_CATEGORY_VISE = USER+"/get_users_category_vise";
     public static final String SAVE_TALENTS = AUTH+"/save_talents_as_a_post";
     public static final String POST_REVIEW = AUTH+"/post_review";
     public static final String GET_POST_BY_USER_ID = USER+"/get_post_by_user_id";

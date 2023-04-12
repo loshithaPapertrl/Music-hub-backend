@@ -193,6 +193,11 @@ public class UserServiceImpl implements UserService {
         return  new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<Object> getUsersCategoryVise(Integer categoryId) {
+        return new ResponseEntity<>(userRepository.getUsersCategoryVise(categoryId),HttpStatus.OK);
+    }
+
     @Autowired
     public void setCommentRepository(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;

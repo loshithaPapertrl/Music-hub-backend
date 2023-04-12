@@ -40,5 +40,7 @@ public interface UserService {
     public ProfileDetail getProfileDetail();
     ResponseEntity<Object> commentOnAPost(Comment comment);
 
+    ResponseEntity<Object> getUsersCategoryVise(Integer categoryId);
+
 //    User loadUserByUsername(String userName);
 }

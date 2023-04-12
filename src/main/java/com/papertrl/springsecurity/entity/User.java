@@ -47,5 +47,13 @@ public class User{
     @Column(name = "role")
     private String role;
 
+    private transient byte[] profilePicture;
 
+
+    public User(Integer id, String artistName, String phoneNumber, byte[] profilePicture) {
+        this.id = id;
+        this.artistName = artistName;
+        this.phoneNumber = phoneNumber;
+        this.profilePicture = profilePicture;
+    }
 }
