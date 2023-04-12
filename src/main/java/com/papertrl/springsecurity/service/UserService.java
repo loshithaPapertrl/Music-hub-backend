@@ -47,5 +47,7 @@ public interface UserService {
 
     ResponseEntity<Object> getPersonalReview();
 
+    public List<Post> getPersonalPost();
+
 //    User loadUserByUsername(String userName);
 }

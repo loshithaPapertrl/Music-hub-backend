@@ -27,4 +27,6 @@ public class ProfileDetailDto {
     private String youtubeLink;
 
     private String spotifyLink;
+
+    private Integer talentCategory;
 }

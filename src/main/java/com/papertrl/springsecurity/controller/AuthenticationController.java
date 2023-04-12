@@ -65,6 +65,11 @@ public class AuthenticationController {
         return new ResponseEntity<>(userService.getPostByUserId(userId),HttpStatus.OK);
     }
 
+    @GetMapping(GET_PERSONAL_POST)
+    public ResponseEntity<Object> getPersonalPost() {
+        return new ResponseEntity<>(userService.getPersonalPost(),HttpStatus.OK);
+    }
+
     @DeleteMapping(DELETE_POST)
     public ResponseEntity<Object> deletePostById(@RequestParam int postId) {
         return new ResponseEntity<>(userService.deletePost(postId),HttpStatus.OK);

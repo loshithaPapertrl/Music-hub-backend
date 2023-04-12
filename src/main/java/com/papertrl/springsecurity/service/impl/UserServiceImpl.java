@@ -157,6 +157,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Post> getPersonalPost() {
+        Integer userId = getCurrentUserId();
+        List<Post> posts = postRepository.findPostByUserId(userId);
+        for (Post post:posts) {
+            post.setComments(commentRepository.findCommentByPostId(post.getId()));
+        }
+        return posts;
+    }
+
+    @Override
     public ResponseEntity<Object> deletePost(int postId) {
         Optional<Post> postOptional = postRepository.findById(postId);
         if (postOptional.isPresent()) {
@@ -180,6 +190,7 @@ public class UserServiceImpl implements UserService {
             profileDetail.setProfession(profileDetailDto.getProfession());
             profileDetail.setSpotifyLink(profileDetailDto.getSpotifyLink());
             profileDetail.setYoutubeLink(profileDetailDto.getYoutubeLink());
+            profileDetail.setTalentCategory(profileDetailDto.getTalentCategory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
