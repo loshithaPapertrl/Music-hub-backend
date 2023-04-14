@@ -15,10 +15,13 @@ public class ReviewDto implements Serializable {
 
     private String reviewText;
 
+    private Integer marks;
 
-    public ReviewDto(String reviewerName, Integer reviewedUserId, String reviewText) {
+
+    public ReviewDto(String reviewerName,Integer marks, Integer reviewedUserId, String reviewText) {
         this.reviewerName = reviewerName;
         this.reviewedUserId = reviewedUserId;
         this.reviewText = reviewText;
+        this.marks= marks;
     }
 }

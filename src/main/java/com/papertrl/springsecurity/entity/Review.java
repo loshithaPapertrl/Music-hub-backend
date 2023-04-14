@@ -26,5 +26,8 @@ public class Review {
     @Column(name = "review_text")
     private String reviewText;
 
+    @Column(name = "marks")
+    private Integer marks;
+
 
 }

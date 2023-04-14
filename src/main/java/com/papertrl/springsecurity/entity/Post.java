@@ -37,14 +37,19 @@ public class Post implements Serializable {
     @Column(name = "about")
     private String about;
 
+    @Column(name = "path")
+    private String path;
+
+
     transient private List<Comment> comments;
 
     transient private String userName;
 
     transient private  byte[] profilePicture;
 
+    transient private String postContentAsString;
 
-    public Post(Integer id,Integer userId, String userName, String about,byte[] postContent,byte[] profilePicture, Date postDate, String postType) {
+    public Post(Integer id,Integer userId, String userName,String path, String about,byte[] postContent,byte[] profilePicture, Date postDate, String postType) {
         this.id = id;
         this.userId=userId;
         this.userName = userName;
@@ -53,5 +58,6 @@ public class Post implements Serializable {
         this.postDate = postDate;
         this.about = about;
         this.profilePicture=profilePicture;
+        this.path=path;
     }
 }

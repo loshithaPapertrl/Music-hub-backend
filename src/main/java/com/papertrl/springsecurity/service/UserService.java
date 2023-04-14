@@ -12,6 +12,7 @@ import com.papertrl.springsecurity.exception.MusicHubCheckedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -48,6 +49,14 @@ public interface UserService {
     ResponseEntity<Object> getPersonalReview();
 
     public List<Post> getPersonalPost();
+
+    List<Post> getAudio();
+
+    String saveLocally(MultipartFile file);
+
+    Double getRatingByVisitor(Integer userId);
+
+    Double  getRating();
 
 //    User loadUserByUsername(String userName);
 }

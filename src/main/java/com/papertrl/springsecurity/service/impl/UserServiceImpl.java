@@ -11,6 +11,7 @@ import com.papertrl.springsecurity.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import net.codejava.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -18,8 +19,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import java.time.LocalDate;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +34,8 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
+    @Value("${upload.directory}")
+    private String uploadDirectory;
 
     private UserRepository userRepository;
 
@@ -69,6 +78,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<Object> savePost(PostDto post){
         Post postSave = new Post();
+        if (post.getPostType().equals("AUDIO")){
+            String path = saveLocally(post.getPostContent());
+            postSave.setPath("assets\\mp3\\"+path);
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         Integer userId = userRepository.findArtistIdByEmail(email);
@@ -85,6 +98,37 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public String saveLocally(MultipartFile file) {
+        try {
+            // Get the file and save it
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(uploadDirectory+ LocalDate.now() + file.getOriginalFilename());
+            Files.write(path, bytes);
+            return LocalDate.now() + file.getOriginalFilename();
+        } catch (IOException e) {
+            return "Failed to upload file";
+        }
+    }
+
+    @Override
+    public Double getRatingByVisitor(Integer userId) {
+        Double sumOfAllMarks = Double.valueOf(reviewRepository.getSumOfAllMarks(userId));
+        Double reviewCount = Double.valueOf(reviewRepository.getReviewCount(userId));
+        Double rating = ((sumOfAllMarks / reviewCount) / 5) * 10;
+        return rating;
+    }
+
+    @Override
+    public Double getRating() {
+        Integer userId = getCurrentUserId();
+        Double sumOfAllMarks = Double.valueOf(reviewRepository.getSumOfAllMarks(userId));
+        Double reviewCount = Double.valueOf(reviewRepository.getReviewCount(userId));
+        Double rating = ((sumOfAllMarks / reviewCount) / 5) * 10;
+        return rating;
+    }
+
 
 //    @Override
 //    public User loadUserByUsername(String userName) {
@@ -129,6 +173,7 @@ public class UserServiceImpl implements UserService {
         Review review = new Review();
         review.setReviewedUserId(reviewDto.getReviewedUserId());
         review.setReviewText(reviewDto.getReviewText());
+        review.setMarks(reviewDto.getMarks());
         review.setReviewerName(artistName);
         reviewRepository.save(review);
         return ResponseEntity.ok().build();
@@ -167,6 +212,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Post> getAudio() {
+        Integer userId = getCurrentUserId();
+        List<Post> posts = postRepository.findAudioPostByUserId(userId);
+        for (Post post:posts) {
+            post.setPostContentAsString(Base64.getEncoder().encodeToString(post.getPostContent()));
+        }
+        return posts;
+    }
+
+
+
+    @Override
     public ResponseEntity<Object> deletePost(int postId) {
         Optional<Post> postOptional = postRepository.findById(postId);
         if (postOptional.isPresent()) {
@@ -197,6 +254,7 @@ public class UserServiceImpl implements UserService {
         profileDetailRepository.save(profileDetail);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 
     @Override

@@ -84,6 +84,7 @@ public class AuthenticationController {
     public ResponseEntity<Object> getProfileDetailByOwner() throws MusicHubCheckedException {
         return new  ResponseEntity<>(userService.getProfileDetail(),HttpStatus.OK);
     }
+
     @GetMapping(GET_PROFILE_DETAILS_BY_VISITOR)
     public ResponseEntity<Object> getProfileDetailForVisitor(@RequestParam Integer userId) throws MusicHubCheckedException {
         return new  ResponseEntity<>(userService.getProfileDetailForVisitor(userId),HttpStatus.OK);
@@ -93,4 +94,21 @@ public class AuthenticationController {
     public ResponseEntity<Object> commentOnAPost(@RequestBody Comment comment) throws MusicHubCheckedException {
         return new  ResponseEntity<>(userService.commentOnAPost(comment),HttpStatus.OK);
     }
+
+    @GetMapping(GET_AUDIOS_AS_POST)
+    public ResponseEntity<Object> getAudio() {
+        return new ResponseEntity(userService.getAudio(),HttpStatus.OK);
+    }
+
+    @GetMapping(GET_RATINGS_OWN)
+    public ResponseEntity<Object> getRatingByVisitor(){
+        return new ResponseEntity<>(userService.getRating() ,HttpStatus.OK) ;
+    }
+
+//    @PostMapping(POST_LOCAL)
+//    public ResponseEntity<Object> uploadMp3(@ModelAttribute("file") MultipartFile file) {
+//        return new  ResponseEntity<>(userService.saveLocally(file),HttpStatus.OK);
+//
+//    }
+
 }
