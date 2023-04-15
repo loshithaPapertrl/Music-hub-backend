@@ -46,7 +46,7 @@ public class ProfileDetail {
     private transient String artistName;
 
     public ProfileDetail(Integer id, Integer userId, String artistName, byte[] profilePicture, String about,
-                         String genres,String moods, String profession,String spotifyLink,String youtubeLink
+                         String genres,String moods, String profession,String spotifyLink,String youtubeLink,Integer talentCategory
                          ) {
         this.id = id;
         this.userId = userId;
@@ -58,5 +58,6 @@ public class ProfileDetail {
         this.youtubeLink = youtubeLink;
         this.spotifyLink = spotifyLink;
         this.artistName = artistName;
+        this.talentCategory= talentCategory;
     }
 }

@@ -12,7 +12,7 @@ public interface ProfileDetailRepository extends JpaRepository<ProfileDetail,Int
     ProfileDetail findByUserId(Integer userId);
 
     @Query(value = "SELECT new com.papertrl.springsecurity.entity.ProfileDetail" +
-            "(pd.id,pd.userId,u.artistName,pd.profilePicture,pd.about,pd.genres,pd.moods,pd.profession,pd.spotifyLink,pd.youtubeLink) " +
+            "(pd.id,pd.userId,u.artistName,pd.profilePicture,pd.about,pd.genres,pd.moods,pd.profession,pd.spotifyLink,pd.youtubeLink,pd.talentCategory) " +
             "FROM ProfileDetail pd " +
             "INNER JOIN User u ON pd.userId= u.id " +
             "WHERE pd.userId=:userId")

@@ -255,6 +255,28 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<Object> updateProfileDetail(ProfileDetailDto profileDetailDto) {
+
+        Integer userId = getCurrentUserId();
+        ProfileDetail existingProfileDetail = profileDetailRepository.findByUserId(userId);
+        try {
+            existingProfileDetail.setAbout(null==profileDetailDto.getAbout()?existingProfileDetail.getAbout():profileDetailDto.getAbout());
+            existingProfileDetail.setGenres(null==profileDetailDto.getGenres()? existingProfileDetail.getGenres() : profileDetailDto.getGenres());
+            existingProfileDetail.setMoods(null==profileDetailDto.getMoods()?existingProfileDetail.getMoods():profileDetailDto.getMoods());
+            existingProfileDetail.setProfession(null==profileDetailDto.getProfession()?existingProfileDetail.getProfession():profileDetailDto.getProfession());
+            existingProfileDetail.setSpotifyLink(null==profileDetailDto.getSpotifyLink()?existingProfileDetail.getSpotifyLink():profileDetailDto.getSpotifyLink());
+            existingProfileDetail.setYoutubeLink(null==profileDetailDto.getYoutubeLink()?existingProfileDetail.getYoutubeLink():profileDetailDto.getYoutubeLink());
+            existingProfileDetail.setTalentCategory(null==profileDetailDto.getTalentCategory()?existingProfileDetail.getTalentCategory():profileDetailDto.getTalentCategory());
+            if (profileDetailDto.getProfilePicture() != null) {
+                existingProfileDetail.setProfilePicture(profileDetailDto.getProfilePicture().getBytes());
+            }
+            profileDetailRepository.save(existingProfileDetail);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
     @Override
@@ -270,7 +292,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<Object> commentOnAPost(Comment comment) {
-       commentRepository.save(comment);
+        Comment com = new Comment();
+        Integer currentUserId = getCurrentUserId();
+        String artistName = userRepository.findArtistNameById(currentUserId);
+        com.setPostId(comment.getPostId());
+        com.setComment(comment.getComment());
+        com.setCommentedBy(artistName);
+        commentRepository.save(com);
         return  new ResponseEntity<>(HttpStatus.OK);
     }
 

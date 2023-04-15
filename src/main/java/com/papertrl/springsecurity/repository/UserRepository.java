@@ -25,4 +25,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
             " FROM User u INNER JOIN ProfileDetail pd ON u.id= pd.userId " +
             "INNER JOIN TalentsCategory tc ON pd.talentCategory= tc.id WHERE tc.id=:categoryId")
     List<User> getUsersCategoryVise(Integer categoryId);
+
+    @Query(value = "SELECT u.artistName FROM User u WHERE u.id=:id")
+    String findArtistNameById(Integer id);
 }

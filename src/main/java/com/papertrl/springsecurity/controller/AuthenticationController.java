@@ -80,6 +80,11 @@ public class AuthenticationController {
         return new  ResponseEntity<>(userService.saveProfileDetail(profileDetail),HttpStatus.OK);
     }
 
+    @PutMapping(UPDATE_PROFILE_DETAILS)
+    public ResponseEntity<Object> updateProfileDetail(@ModelAttribute ProfileDetailDto profileDetail) throws MusicHubCheckedException {
+        return new  ResponseEntity<>(userService.updateProfileDetail(profileDetail),HttpStatus.OK);
+    }
+
     @GetMapping(GET_PROFILE_DETAILS)
     public ResponseEntity<Object> getProfileDetailByOwner() throws MusicHubCheckedException {
         return new  ResponseEntity<>(userService.getProfileDetail(),HttpStatus.OK);

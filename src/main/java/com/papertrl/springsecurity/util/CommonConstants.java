@@ -26,6 +26,8 @@ public class CommonConstants implements Serializable {
     public static final String GET_PERSONAL_POST = AUTH+"/get_personal_post";
     public static final String DELETE_POST = AUTH+"/delete_post";
     public static final String ADD_PROFILE_DETAILS = AUTH+"/add_profile_details";
+
+    public static final String UPDATE_PROFILE_DETAILS = AUTH+"/update_profile_details";
     public static final String GET_PROFILE_DETAILS = AUTH+"/get_profile_details";
     public static final String GET_PROFILE_DETAILS_BY_VISITOR = USER+"/get_profile_details_by_visitor";
     public static final String COMMENT_ON_A_POST = AUTH+"/comment_on_a_post";
