@@ -28,4 +28,10 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     @Query(value = "SELECT u.artistName FROM User u WHERE u.id=:id")
     String findArtistNameById(Integer id);
+
+
+    @Query(value = "SELECT new com.papertrl.springsecurity.entity.User(u.id,u.artistName, u.phoneNumber,u.email,pd.profession,tc.categoryName)" +
+            " FROM User u INNER JOIN ProfileDetail pd ON u.id= pd.userId " +
+            "INNER JOIN TalentsCategory tc ON pd.talentCategory= tc.id")
+    List<User> getUsersToAdminTable();
 }

@@ -1,5 +1,6 @@
 package com.papertrl.springsecurity.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,8 @@ public class Post implements Serializable {
     private byte[] postContent;
 
     @Column(name = "post_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date postDate;
 
     @Column(name = "about")

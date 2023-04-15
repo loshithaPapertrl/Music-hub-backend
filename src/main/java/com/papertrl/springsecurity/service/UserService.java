@@ -4,10 +4,7 @@ import com.papertrl.springsecurity.dto.PostDto;
 import com.papertrl.springsecurity.dto.ProfileDetailDto;
 import com.papertrl.springsecurity.dto.ReviewDto;
 import com.papertrl.springsecurity.dto.UserDto;
-import com.papertrl.springsecurity.entity.Comment;
-import com.papertrl.springsecurity.entity.Post;
-import com.papertrl.springsecurity.entity.ProfileDetail;
-import com.papertrl.springsecurity.entity.TalentsCategory;
+import com.papertrl.springsecurity.entity.*;
 import com.papertrl.springsecurity.exception.MusicHubCheckedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +22,10 @@ public interface UserService {
     public ResponseEntity<Object> savePost(PostDto post)throws MusicHubCheckedException;
 
     UserDetails findUserByEmail(String email) throws UsernameNotFoundException;
+
+    public String getRole(String email);
+
+    public ResponseEntity<Object> getAllUsersToAdminTable();
 
     List<Integer> getCategoryViseTalentId(Integer categoryId);
 
@@ -60,7 +61,11 @@ public interface UserService {
 
     Double  getRating();
 
+    ResponseEntity<Object> addNote(AdminNote note);
 
+    List<AdminNote> getAllNotes();
+
+    ResponseEntity<Object> deleteNote(Integer noteId);
 
 //    User loadUserByUsername(String userName);
 }

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
@@ -51,6 +50,9 @@ public class User{
 
     private transient Integer profileId;
 
+    private transient String profession;
+
+    private transient String categoryName;
 
     public User(Integer id,Integer profileId, String artistName, String phoneNumber, byte[] profilePicture) {
         this.id = id;
@@ -59,4 +61,24 @@ public class User{
         this.phoneNumber = phoneNumber;
         this.profilePicture = profilePicture;
     }
+
+
+    /**
+     * this method use for admin table
+     * @param id
+     * @param artistName
+     * @param phoneNumber
+     * @param email
+     * @param profession
+     * @param categoryName
+     */
+    public User(Integer id,String artistName, String phoneNumber, String email, String profession,String categoryName) {
+        this.id = id;
+        this.artistName= artistName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.profession = profession;
+        this.categoryName = categoryName;
+    }
+
 }

@@ -3,10 +3,7 @@ package com.papertrl.springsecurity.controller;
 import com.papertrl.springsecurity.config.JwtUtil;
 import com.papertrl.springsecurity.dao.UserDao;
 import com.papertrl.springsecurity.dto.*;
-import com.papertrl.springsecurity.entity.Comment;
-import com.papertrl.springsecurity.entity.Post;
-import com.papertrl.springsecurity.entity.ProfileDetail;
-import com.papertrl.springsecurity.entity.User;
+import com.papertrl.springsecurity.entity.*;
 import com.papertrl.springsecurity.exception.MusicHubCheckedException;
 import com.papertrl.springsecurity.repository.UserRepository;
 import com.papertrl.springsecurity.service.UserService;
@@ -44,8 +41,10 @@ public class AuthenticationController {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         final UserDetails user = userService.findUserByEmail(request.getEmail());
+        String role = userService.getRole(request.getEmail());
         if (user != null){
             tokenDto.setToken(jwtUtil.generateToken(user));
+            tokenDto.setRole(role);
             return ResponseEntity.ok(tokenDto);
         }
         return ResponseEntity.status(400).body("some error");
@@ -108,6 +107,28 @@ public class AuthenticationController {
     @GetMapping(GET_RATINGS_OWN)
     public ResponseEntity<Object> getRatingByVisitor(){
         return new ResponseEntity<>(userService.getRating() ,HttpStatus.OK) ;
+    }
+
+    @GetMapping(GET_ALL_USERS)
+    public ResponseEntity<Object> getAllUsers(){
+        return userService.getAllUsersToAdminTable();
+    }
+
+    @PostMapping(ADD_NOTE)
+
+    public ResponseEntity<Object>addNote(@RequestBody AdminNote note){
+        return new ResponseEntity<>(userService.addNote(note),HttpStatus.OK) ;
+    }
+
+    @GetMapping(GET_ALL_NOTES)
+    public ResponseEntity<Object>getAllNote(){
+        return new ResponseEntity<>(userService.getAllNotes(),HttpStatus.OK) ;
+    }
+
+
+    @DeleteMapping(DELETE_NOTE)
+    public ResponseEntity<Object> deleteNote(@RequestParam Integer noteId){
+        return new ResponseEntity<>(userService.deleteNote(noteId),HttpStatus.OK);
     }
 
 //    @PostMapping(POST_LOCAL)

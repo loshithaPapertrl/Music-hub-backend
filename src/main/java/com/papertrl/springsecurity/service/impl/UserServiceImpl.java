@@ -49,10 +49,17 @@ public class UserServiceImpl implements UserService {
 
     private ProfileDetailRepository profileDetailRepository;
 
+    private AdminNoteRepository adminNoteRepository;
+
 
 
     private CommentRepository commentRepository;
 
+    /**
+     * this method use for ragistration
+     * @param userDto
+     * @return
+     */
     @Override
     public ResponseEntity<Object> register(UserDto userDto) {
         User user = new User();
@@ -70,11 +77,20 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * this method use for get talent categories
+     * @return
+     */
     @Override
     public List<TalentsCategory> getTalentCategories() {
         return talentCategoryRepository.findAll();
     }
 
+    /**
+     * this method use for save a post
+     * @param post
+     * @return
+     */
     @Override
     public ResponseEntity<Object> savePost(PostDto post){
         Post postSave = new Post();
@@ -99,6 +115,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * this method use for save audio locally
+     * @param file
+     * @return
+     */
+
     @Override
     public String saveLocally(MultipartFile file) {
         try {
@@ -112,6 +134,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * this method use for see rating as a no logged user
+     * @param userId
+     * @return
+     */
+
     @Override
     public Double getRatingByVisitor(Integer userId) {
         Double sumOfAllMarks = Double.valueOf(reviewRepository.getSumOfAllMarks(userId));
@@ -120,6 +148,10 @@ public class UserServiceImpl implements UserService {
         return rating;
     }
 
+    /**
+     * this method use for get rating as a user
+     * @return
+     */
     @Override
     public Double getRating() {
         Integer userId = getCurrentUserId();
@@ -127,6 +159,35 @@ public class UserServiceImpl implements UserService {
         Double reviewCount = Double.valueOf(reviewRepository.getReviewCount(userId));
         Double rating = ((sumOfAllMarks / reviewCount) / 5) * 10;
         return rating;
+    }
+
+    /**
+     * this method use for add notes for admin role
+     * @param note
+     * @return
+     */
+
+    @Override
+    public ResponseEntity<Object> addNote(AdminNote note) {
+        AdminNote adminNote = new AdminNote();
+        adminNote.setDate(new Date());
+        adminNote.setNote(note.getNote());
+        return new ResponseEntity<>(adminNoteRepository.save(adminNote),HttpStatus.OK);
+    }
+
+    /**
+     * this method use for get all notes
+     * @return
+     */
+    @Override
+    public List<AdminNote> getAllNotes() {
+        return adminNoteRepository.findAll();
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteNote(Integer noteId) {
+        adminNoteRepository.deleteById(noteId);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -154,6 +215,12 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("No user found with the given email");
         }
         return new CustomUserDetails(user);
+    }
+
+    @Override
+    public String getRole(String email){
+        User user = userRepository.findByEmail(email);
+        return user.getRole();
     }
 
     @Override
@@ -255,6 +322,11 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * this method use for save profile details
+     * @param profileDetailDto
+     * @return
+     */
     @Override
     public ResponseEntity<Object> updateProfileDetail(ProfileDetailDto profileDetailDto) {
 
@@ -290,6 +362,11 @@ public class UserServiceImpl implements UserService {
         return profileDetailRepository.findByUserIdWithName(userId);
     }
 
+    /**
+     * this method use for
+     * @param comment
+     * @return
+     */
     @Override
     public ResponseEntity<Object> commentOnAPost(Comment comment) {
         Comment com = new Comment();
@@ -302,9 +379,20 @@ public class UserServiceImpl implements UserService {
         return  new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * this method use for get users category vise
+     * @param categoryId
+     * @return
+     */
+
     @Override
     public ResponseEntity<Object> getUsersCategoryVise(Integer categoryId) {
         return new ResponseEntity<>(userRepository.getUsersCategoryVise(categoryId),HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> getAllUsersToAdminTable(){
+        return new ResponseEntity<>(userRepository.getUsersToAdminTable(),HttpStatus.OK);
     }
 
     @Autowired
@@ -340,5 +428,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public void setPostRepository(PostRepository postRepository) {
         this.postRepository = postRepository;
+    }
+
+    @Autowired
+    public void setAdminNoteRepository(AdminNoteRepository adminNoteRepository) {
+        this.adminNoteRepository = adminNoteRepository;
     }
 }
