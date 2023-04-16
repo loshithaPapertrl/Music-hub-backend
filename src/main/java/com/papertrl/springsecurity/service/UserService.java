@@ -1,9 +1,6 @@
 package com.papertrl.springsecurity.service;
 
-import com.papertrl.springsecurity.dto.PostDto;
-import com.papertrl.springsecurity.dto.ProfileDetailDto;
-import com.papertrl.springsecurity.dto.ReviewDto;
-import com.papertrl.springsecurity.dto.UserDto;
+import com.papertrl.springsecurity.dto.*;
 import com.papertrl.springsecurity.entity.*;
 import com.papertrl.springsecurity.exception.MusicHubCheckedException;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +20,11 @@ public interface UserService {
 
     UserDetails findUserByEmail(String email) throws UsernameNotFoundException;
 
-    public String getRole(String email);
+    public ActiveUserDto getRole(String email);
 
     public ResponseEntity<Object> getAllUsersToAdminTable();
+
+    public ResponseEntity<Object>  activeAndInactiveUser(User user);
 
     List<Integer> getCategoryViseTalentId(Integer categoryId);
 

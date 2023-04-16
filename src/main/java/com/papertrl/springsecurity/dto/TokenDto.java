@@ -14,4 +14,6 @@ public class TokenDto {
     private String token;
 
     private String role;
+
+    private Boolean isActive;
 }

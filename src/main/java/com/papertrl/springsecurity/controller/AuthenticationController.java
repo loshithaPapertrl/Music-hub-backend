@@ -41,10 +41,11 @@ public class AuthenticationController {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         final UserDetails user = userService.findUserByEmail(request.getEmail());
-        String role = userService.getRole(request.getEmail());
+        ActiveUserDto activeUser = userService.getRole(request.getEmail());
         if (user != null){
             tokenDto.setToken(jwtUtil.generateToken(user));
-            tokenDto.setRole(role);
+            tokenDto.setRole(activeUser.getRole());
+            tokenDto.setIsActive(activeUser.getIsActive());
             return ResponseEntity.ok(tokenDto);
         }
         return ResponseEntity.status(400).body("some error");
@@ -129,6 +130,11 @@ public class AuthenticationController {
     @DeleteMapping(DELETE_NOTE)
     public ResponseEntity<Object> deleteNote(@RequestParam Integer noteId){
         return new ResponseEntity<>(userService.deleteNote(noteId),HttpStatus.OK);
+    }
+
+    @PutMapping(UPDATE_USER_STATUS)
+    public ResponseEntity<Object> updateUserStatus(@RequestBody User user){
+        return new ResponseEntity<>(userService.activeAndInactiveUser(user), HttpStatus.OK);
     }
 
 //    @PostMapping(POST_LOCAL)

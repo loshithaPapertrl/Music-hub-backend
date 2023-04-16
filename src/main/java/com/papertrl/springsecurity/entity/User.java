@@ -46,6 +46,9 @@ public class User{
     @Column(name = "role")
     private String role;
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
     private transient byte[] profilePicture;
 
     private transient Integer profileId;
@@ -72,13 +75,14 @@ public class User{
      * @param profession
      * @param categoryName
      */
-    public User(Integer id,String artistName, String phoneNumber, String email, String profession,String categoryName) {
+    public User(Integer id,String artistName, String phoneNumber, String email, String profession,String categoryName,Boolean isActive) {
         this.id = id;
         this.artistName= artistName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.profession = profession;
         this.categoryName = categoryName;
+        this.isActive=isActive;
     }
 
 }

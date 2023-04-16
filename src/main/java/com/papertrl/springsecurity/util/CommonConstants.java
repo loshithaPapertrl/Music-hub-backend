@@ -42,6 +42,7 @@ public class CommonConstants implements Serializable {
     public static final String GET_ALL_NOTES = AUTH+"/get_admin_note";
 
     public static final String DELETE_NOTE = AUTH+"/delete_note";
+    public static final String UPDATE_USER_STATUS = AUTH+"/update_user_status";
 
     public static final String POST_LOCAL = AUTH+"/upload-mp3";
 

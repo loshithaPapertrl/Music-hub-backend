@@ -1,9 +1,6 @@
 package com.papertrl.springsecurity.service.impl;
 
-import com.papertrl.springsecurity.dto.PostDto;
-import com.papertrl.springsecurity.dto.ProfileDetailDto;
-import com.papertrl.springsecurity.dto.ReviewDto;
-import com.papertrl.springsecurity.dto.UserDto;
+import com.papertrl.springsecurity.dto.*;
 import com.papertrl.springsecurity.entity.*;
 import com.papertrl.springsecurity.exception.MusicHubCheckedException;
 import com.papertrl.springsecurity.repository.*;
@@ -72,6 +69,7 @@ public class UserServiceImpl implements UserService {
         user.setUserName(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setRole(userDto.getRole());
+        user.setIsActive(true);
 
         userRepository.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -218,9 +216,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getRole(String email){
+    public ActiveUserDto getRole(String email){
+        ActiveUserDto activeUserDto = new ActiveUserDto();
         User user = userRepository.findByEmail(email);
-        return user.getRole();
+        activeUserDto.setRole(user.getRole());
+        activeUserDto.setIsActive(user.getIsActive());
+
+        return activeUserDto;
     }
 
     @Override
@@ -393,6 +395,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<Object> getAllUsersToAdminTable(){
         return new ResponseEntity<>(userRepository.getUsersToAdminTable(),HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> activeAndInactiveUser(User user){
+        Integer id = user.getId();
+        User existingUser = userRepository.getUserById(id);
+        existingUser.setIsActive(user.getIsActive());
+        userRepository.save(existingUser);
+        return  new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Autowired
