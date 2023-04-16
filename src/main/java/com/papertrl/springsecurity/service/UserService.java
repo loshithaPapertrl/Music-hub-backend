@@ -34,6 +34,8 @@ public interface UserService {
 
     public List<Post> getPostByUserId(int postId);
 
+    public List<Post> getAllPost();
+
     public ResponseEntity<Object> deletePost(int postId);
 
     public ResponseEntity<Object> saveProfileDetail(ProfileDetailDto profileDetailDto) throws MusicHubCheckedException;

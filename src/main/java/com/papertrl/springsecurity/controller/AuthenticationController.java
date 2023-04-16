@@ -65,6 +65,11 @@ public class AuthenticationController {
         return new ResponseEntity<>(userService.getPostByUserId(userId),HttpStatus.OK);
     }
 
+    @GetMapping(GET_ALL_POST)
+    public ResponseEntity<Object> getAllPost() {
+        return new ResponseEntity<>(userService.getAllPost(),HttpStatus.OK);
+    }
+
     @GetMapping(GET_PERSONAL_POST)
     public ResponseEntity<Object> getPersonalPost() {
         return new ResponseEntity<>(userService.getPersonalPost(),HttpStatus.OK);
@@ -136,6 +141,7 @@ public class AuthenticationController {
     public ResponseEntity<Object> updateUserStatus(@RequestBody User user){
         return new ResponseEntity<>(userService.activeAndInactiveUser(user), HttpStatus.OK);
     }
+
 
 //    @PostMapping(POST_LOCAL)
 //    public ResponseEntity<Object> uploadMp3(@ModelAttribute("file") MultipartFile file) {

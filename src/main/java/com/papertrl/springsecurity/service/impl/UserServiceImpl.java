@@ -252,6 +252,11 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<>(reviewByUserId,HttpStatus.OK);
     }
 
+    /**
+     * this method use for get post by user id
+     * @param userId
+     * @return
+     */
     @Override
     public List<Post> getPostByUserId(int userId) {
         List<Post> posts = postRepository.findPostByUserId(userId);
@@ -355,6 +360,8 @@ public class UserServiceImpl implements UserService {
         return profileDetailRepository.findByUserIdWithName(userId);
     }
 
+
+
     /**
      * this method use for
      * @param comment
@@ -395,6 +402,15 @@ public class UserServiceImpl implements UserService {
         existingUser.setIsActive(user.getIsActive());
         userRepository.save(existingUser);
         return  new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public List<Post> getAllPost() {
+        List<Post> posts = postRepository.findAllPost();
+        for (Post post:posts) {
+            post.setComments(commentRepository.findCommentByPostId(post.getId()));
+        }
+        return posts;
     }
 
     @Autowired
