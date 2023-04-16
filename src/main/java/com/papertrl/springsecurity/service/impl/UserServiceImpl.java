@@ -189,15 +189,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-//    @Override
-//    public User loadUserByUsername(String userName) {
-//        User user = userRepository.findUserByUsername(userName);
-//        if (user == null) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//        return new User(user.getUsername(), user.getPassword());
-//    }
-
     private Integer getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
