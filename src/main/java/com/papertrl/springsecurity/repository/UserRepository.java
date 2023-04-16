@@ -37,5 +37,6 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     @Query(value = "SELECT u FROM User u WHERE u.id=:userId ")
     User getUserById(Integer userId);
-
+    @Query(value = "SELECT COUNT(u) FROM User u ")
+    Integer userCount();
 }

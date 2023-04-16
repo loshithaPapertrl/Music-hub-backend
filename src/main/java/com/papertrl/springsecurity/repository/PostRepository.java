@@ -33,4 +33,7 @@ public interface PostRepository extends JpaRepository<Post,Integer> {
             "INNER JOIN ProfileDetail pd ON pd.userId = u.id " +
             "WHERE p.userId=:userId AND p.postType= 'AUDIO' ")
     public List<Post> findAudioPostByUserId(int userId);
+
+    @Query(value = "SELECT COUNT(p) FROM Post p")
+    Integer postCount();
 }

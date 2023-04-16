@@ -142,6 +142,11 @@ public class AuthenticationController {
         return new ResponseEntity<>(userService.activeAndInactiveUser(user), HttpStatus.OK);
     }
 
+    @GetMapping(GET_ALL_COUNT)
+    public ResponseEntity<Object>getAllCount(){
+        return new ResponseEntity<>(userService.allCounts(), HttpStatus.OK);
+    }
+
 
 //    @PostMapping(POST_LOCAL)
 //    public ResponseEntity<Object> uploadMp3(@ModelAttribute("file") MultipartFile file) {

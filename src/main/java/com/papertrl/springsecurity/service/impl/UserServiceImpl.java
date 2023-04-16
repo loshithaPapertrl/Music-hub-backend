@@ -413,6 +413,15 @@ public class UserServiceImpl implements UserService {
         return posts;
     }
 
+    @Override
+    public CountDto allCounts(){
+        CountDto countDto = new CountDto();
+        countDto.setCommentCount(commentRepository.commentCount());
+        countDto.setPostCount( postRepository.postCount());
+        countDto.setUserCount(userRepository.userCount());
+        return countDto;
+    }
+
     @Autowired
     public void setCommentRepository(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
