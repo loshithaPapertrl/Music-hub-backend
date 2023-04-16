@@ -45,9 +45,13 @@ public class ProfileDetail {
     private Integer talentCategory;
     private transient String artistName;
 
+    private transient String email;
+
+    private transient String phoneNumber;
+
     public ProfileDetail(Integer id, Integer userId, String artistName, byte[] profilePicture, String about,
-                         String genres,String moods, String profession,String spotifyLink,String youtubeLink,Integer talentCategory
-                         ) {
+                         String genres,String moods, String profession,String spotifyLink,String youtubeLink,Integer talentCategory,
+                         String email, String phoneNumber) {
         this.id = id;
         this.userId = userId;
         this.profilePicture = profilePicture;
@@ -59,5 +63,7 @@ public class ProfileDetail {
         this.spotifyLink = spotifyLink;
         this.artistName = artistName;
         this.talentCategory= talentCategory;
+        this.email= email;
+        this.phoneNumber=phoneNumber;
     }
 }
